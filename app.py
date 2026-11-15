@@ -103,9 +103,10 @@ def calculate_nc2_score(ticker_symbol):
         hist['MA200'] = hist['Close'].rolling(window=200).mean()
         c_price, ma50, ma200 = hist['Close'].iloc[-1], hist['MA50'].iloc[-1], hist['MA200'].iloc[-1]
         f12_score = 100 if (c_price > ma50 and c_price > ma200) else 50
-
         delta = hist['Close'].diff()
         gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
         loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-        rsi = (100 - (100 / (1 + (gain / loss)))).iloc[-1]
-        f13_score = 100 if
+        rsi_val = (100 - (100 / (1 + (gain / loss)))).iloc[-1]
+        f13_score = 100 if (40 <= rsi_val <= 65) else 50
+
+        
